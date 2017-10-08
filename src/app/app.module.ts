@@ -9,6 +9,7 @@ import { XtermComponent } from './xterm/xterm.component';
 import { PostsService } from './posts.service';
 import { PostsComponent } from './posts/posts.component';
 
+
 // Define the routes
 const ROUTES = [
   {
@@ -19,13 +20,18 @@ const ROUTES = [
   {
     path: 'posts',
     component: PostsComponent
-  }
+  },
+  {
+    path: 'xterm',
+    component: XtermComponent
+  },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    PostsComponent
+    PostsComponent,
+    XtermComponent
   ],
   imports: [
     BrowserModule,
