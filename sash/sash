@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+ 
+/**
+ * Module dependencies.
+ */
+var command = require('./commander')
+var rl = require('readline');
+
+function setOpts() {
+
+    var c =  new command.Command()
+        .version(require('./package.json').version)
+
+        c.command('docker', 'docker commands')
+
+    return c
+}
+
+function processOpts( argv ) {
+  try {
+      var result = setOpts().parse(toArray(argv));
+  } catch( e ) {
+    console.log(e)
+  }
+}
+
+function toArray( a ) {
+    if ((!!a) && (a.constructor === Array))
+        return a
+    else
+        //TODO: this is pretty tanky but the option processer needs the script name...
+        return (process.argv.join(" ") + " " + a).split(" ")
+}
+
+function ask(question, callback) {
+    var r = rl.createInterface({
+        input: process.stdin,
+        output: process.stdout});
+    r.question(question, function(answer){ r.close();callback(answer)});
+}
+
+function loop(answer) {
+    console.log(answer)
+    processOpts(answer)
+    setImmediate( function() {
+        ask('sash> ', loop)
+    })
+}
+
+if (process.argv.length > 2)
+  processOpts(process.argv)
+else
+    ask('sash> ', loop)
+
+

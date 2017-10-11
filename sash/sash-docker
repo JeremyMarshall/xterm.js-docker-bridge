@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+var p = require('./commander');
+const { spawn } = require('child_process');
+
+function run(opts){
+
+    console.log(opts.join(' '))
+
+    const ls = spawn('docker', opts, { shell: true, stdio: 'inherit' });
+    // ls.stdout.on('data', (data) => {
+    //     console.log(`stdout: ${data}`);
+    // })
+    // ls.stderr.on('data', (data) => {
+    //     console.log(`stderr: ${data}`);
+    // })
+    // ls.on('close', (code) => {
+    //     console.log(`child process exited with code ${code}`);
+    // })
+}
+
+function collect(val, memo) {
+    memo.push(val);
+    return memo;
+}
+p
+.version(require('./package.json').version)
+
+process.on('uncaughtException', function (err) {
+    console.log(err);
+});
+
+var opts = []
+
+p
+    .command('ps')
+    .option('-a, --all', 'list all containers')
+    .action(function (env) {
+        opts = [ env._name ]
+        if (env.all)
+            opts.push('-a')
+    });
+p
+    .command('exec <CONTAINER> [COMMAND] [ARG...]')
+    .option('-e, --env', 'add environment', collect, [])
+    .action(function (container, command, args, options) {
+        opts = [ options._name ]
+
+        opts.push( '-it', container, command)
+    });
+p
+    .command('*')
+    .action(function(env){
+        console.log('deploying "%s"', env);
+    });
+
+    p.parse(process.argv);
+
+// if (!p.args.length) {
+//   p.outputHelp()
+// }
+
+run(opts)
