@@ -6,23 +6,21 @@ import { HttpModule, JsonpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { XtermComponent } from './xterm/xterm.component';
-import { PostsService } from './posts.service';
-import { PostsComponent } from './posts/posts.component';
 
 
 // Define the routes
 const ROUTES = [
   {
     path: '',
-    redirectTo: 'posts',
+    redirectTo: 'xterm',
     pathMatch: 'full'
   },
   {
-    path: 'posts',
-    component: PostsComponent
+    path: 'xterm',
+    component: XtermComponent
   },
   {
-    path: 'xterm',
+    path: 'xterm2',
     component: XtermComponent
   },
 ];
@@ -30,7 +28,6 @@ const ROUTES = [
 @NgModule({
   declarations: [
     AppComponent,
-    PostsComponent,
     XtermComponent
   ],
   imports: [
@@ -39,7 +36,6 @@ const ROUTES = [
     HttpModule,
     RouterModule.forRoot(ROUTES) // Add routes to the app
   ],
-  providers: [PostsService], // Add the posts service
   bootstrap: [AppComponent]
 })
 export class AppModule { }

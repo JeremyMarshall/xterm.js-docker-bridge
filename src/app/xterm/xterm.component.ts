@@ -171,11 +171,9 @@ export class XtermComponent implements OnInit {
 
   runRealTerminal = () => {
 
-    console.log( 'xxx');
-    console.log(this.term);
-    console.log(this.socket1);
     this.term.attach(this.socket1);
     this.term._initialized = true;
+
   }
 
   runFakeTerminal = (error) => {
