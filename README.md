@@ -1,27 +1,45 @@
-# MyAngApp
+# This is a project in three parts
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.4.
+* An Angular 4 front end assembled with angular cli
 
-## Development server
+* An Express server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* A terminal application 
 
-## Code scaffolding
+# Description
+The front end uses xterm.js to serve up a terminal
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+this connects via a websocket to the express server
 
-## Build
+The server conects via a pseudo tty to a node app called sash (Swiss Army Shell)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+This shell is based on [commander.js](https://www.npmjs.com/package/commander) which provides 
+an easily extensible mechanism to do CLI
 
-## Running unit tests
+Currently the commands implemented are
+* `docker ps`
+* `docker exec <container|name> <command>`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Docker
+I built this to do a `docker exec` without having access to the docker host so it will run as a [docker container](https://hub.docker.com/r/jeremymarshall/angular4-express-dist/)
 
-## Running end-to-end tests
+Simply run `docker run -d -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock jeremymarshall/angular4-express-dist` and connect to it on port 3000
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+**There is a security risk as this exposes the docker daemon and you can exec to the container running the service. But this is a proof of concept**
 
-## Further help
+## CI
+The CI is a bit hand cranked at the moment
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## TODO
+1. Do the CI
+1. Command History
+1. More commands
+  * docker
+  * docker compose
+  * marathon/mesos
+  * haproxy?
+  * ssh?
+1. integrate colour
+1. Log commands to a database - what about passwords?)
+
+## Please fork and raise PRs
